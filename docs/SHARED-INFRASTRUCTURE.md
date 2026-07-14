@@ -1,6 +1,6 @@
 # Template versus shared infrastructure
 
-Last updated: 2026-07-14T14:17:02.000Z
+Last updated: 2026-07-14T14:41:08.677Z
 
 This repository is the snapshot used to create a project. Existing projects do not automatically receive later template changes.
 
@@ -18,5 +18,7 @@ Move evolving shared behavior elsewhere:
 - organization-wide CI into reusable GitHub Actions workflows;
 - deployment policy into maintained platform tooling;
 - organization secrets into GitHub organization secrets with narrow repository access.
+
+The Cloudflare deployment file in this template is intentionally a thin project-level caller. If deployment policy, account routing, or rollback behavior must change across existing projects, move that logic into a versioned reusable organization workflow and leave only project inputs here.
 
 Dependabot keeps dependency changes reviewable. Template improvements should be promoted deliberately into active projects when they are still relevant; do not assume template inheritance.

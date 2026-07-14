@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - "public/lang/en-US.ftl"
+      - "config/locales.json"
       - "scripts/i18n-config.mjs"
       - "scripts/sync-translations.mjs"
       - ".github/workflows/translations.yml"

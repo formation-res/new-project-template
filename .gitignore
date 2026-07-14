@@ -7,6 +7,7 @@ dist/
 # Environment variables
 .env
 .env.*
+!.env.example
 
 # Logs & caches
 *.log
@@ -18,6 +19,10 @@ pnpm-debug.log*
 
 # Testing coverage
 coverage/
+playwright-report/
+test-results/
+output/playwright/
+.playwright-cli/
 
 # Editor directories & files
 .vscode/

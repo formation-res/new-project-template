@@ -1,6 +1,6 @@
 # Start a FORMATION frontend project
 
-Last updated: 2026-07-14T14:17:02.000Z
+Last updated: 2026-07-14T14:41:08.677Z
 
 ## 1. Create the repository
 
@@ -15,11 +15,14 @@ gh repo create formation-res/<project-name> \
 
 ## 2. Personalize the project
 
-1. Update `name`, `description`, and ownership details in `package.json` and `README.md`.
-2. Replace the starter UI and update `src/templateMetadata.ts` or remove the template timestamp.
-3. Choose the DaisyUI themes in `src/index.css`.
-4. Copy `.env.example` to `.env.local` and add only local values. Never put secrets in `VITE_*` variables.
-5. Keep `AGENTS.md`, tests, CI, CODEOWNERS, and dependency automation unless the project has an explicit alternative.
+Run `npm install`, then `npm run setup`. The initializer configures the package slug, display name, description, production URL, Cloudflare Pages project, repository visibility, default locale, and enabled locales. It also removes unused language catalogs and updates the HTML and README title.
+
+Then:
+
+1. Replace the starter UI while keeping the reusable shell components you need.
+2. Choose the DaisyUI themes in `src/index.css`.
+3. Copy `.env.example` to `.env.local`. Never put secrets in `VITE_*` variables.
+4. Keep `AGENTS.md`, tests, CI, CODEOWNERS, and dependency automation unless the project has an explicit alternative.
 
 ## 3. Configure translation automation
 
@@ -31,12 +34,21 @@ gh repo create formation-res/<project-name> \
 
 Machine-generated translations must be reviewed by a person before merge. The browser never receives the API key.
 
-## 4. Verify the baseline
+## 4. Configure deployment
+
+1. Create or identify the Cloudflare Pages project supplied to `npm run setup`.
+2. Grant the repository access to `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` organization secrets.
+3. Read `docs/DEPLOYMENT.md` and verify the first preview before merging.
+
+## 5. Verify the baseline
 
 ```bash
 nvm use
 npm install
+npm run setup
 npm run check
+npx playwright install chromium
+npm run test:e2e
 npm run dev
 ```
 

@@ -1,0 +1,10 @@
+{
+  "configured": false,
+  "name": "new-project-template",
+  "displayName": "New Project Template",
+  "description": "A maintained FORMATION frontend starting point.",
+  "productionUrl": "",
+  "cloudflarePagesProject": "",
+  "defaultLocale": "en-US",
+  "visibility": "private"
+}

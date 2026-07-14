@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
+import { BuildInfo } from "./components/BuildInfo";
+import { projectConfig } from "./config/project";
 import { LOCALES, useI18n } from "./i18n/context";
-import { TEMPLATE_LAST_UPDATED } from "./templateMetadata";
 
-const THEME_STORAGE_KEY = "new-project-template-theme";
+const THEME_STORAGE_KEY = "app-theme";
 type ThemeId = "qr-light" | "qr-dark";
 
 const isThemeId = (value: string | null): value is ThemeId =>
@@ -43,7 +44,9 @@ function App() {
       <div className="mx-auto flex w-full max-w-3xl flex-col gap-6">
         <header className="flex flex-col gap-4 text-center lg:flex-row lg:items-start lg:justify-between lg:text-left">
           <div>
-            <h1 className="text-3xl font-bold">{t("app-title")}</h1>
+            <h1 className="text-3xl font-bold" dir="auto">
+              {projectConfig.displayName}
+            </h1>
             <p className="mt-2 text-base-content/70">{t("app-intro")}</p>
           </div>
           <div className="flex flex-wrap justify-center gap-3 lg:justify-end">
@@ -118,6 +121,8 @@ function App() {
                   <li>🎨 {t("included-ui")}</li>
                   <li>🧪 {t("included-tests")}</li>
                   <li>🌍 {t("included-i18n")}</li>
+                  <li>🚀 {t("included-deploy")}</li>
+                  <li>♿ {t("included-accessibility")}</li>
                 </ul>
               </div>
               <div className="rounded-box bg-base-200 p-4">
@@ -130,9 +135,8 @@ function App() {
           </div>
         </section>
 
-        <footer className="text-center text-xs text-base-content/60">
-          {t("last-updated-label")}:{" "}
-          <time dateTime={TEMPLATE_LAST_UPDATED}>{TEMPLATE_LAST_UPDATED}</time>
+        <footer className="text-center">
+          <BuildInfo />
         </footer>
       </div>
     </main>
