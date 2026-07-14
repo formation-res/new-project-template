@@ -83,6 +83,6 @@ describe("App", () => {
     await waitFor(() =>
       expect(document.documentElement.getAttribute("data-theme")).toBe("qr-dark"),
     );
-    expect(window.localStorage.getItem("vite-ts-template-theme")).toBe("qr-dark");
+    expect(window.localStorage.getItem("new-project-template-theme")).toBe("qr-dark");
   });
 });

@@ -1,6 +1,6 @@
 # Start a FORMATION frontend project
 
-Last updated: 2026-07-14T13:45:51Z
+Last updated: 2026-07-14T13:56:31Z
 
 ## 1. Create the repository
 
@@ -9,7 +9,7 @@ Use GitHub's **Use this template** button, or run:
 ```bash
 gh repo create formation-res/<project-name> \
   --private \
-  --template formation-res/vite-ts-template \
+  --template formation-res/new-project-template \
   --clone
 ```
 
