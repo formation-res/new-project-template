@@ -10,13 +10,18 @@
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
-    "test": "vitest",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
     "format": "biome format --write .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "translations:check": "node scripts/check-translations.mjs",
+    "translations:sync": "node scripts/sync-translations.mjs",
+    "check": "npm run lint && npm run typecheck && npm run translations:check && npm run test && npm run build"
   },
   "dependencies": {
+    "@fluent/bundle": "^0.19.1",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
   },
@@ -30,6 +35,7 @@
     "@vitejs/plugin-react": "^6.0.1",
     "daisyui": "^5.5.19",
     "jsdom": "^29.0.1",
+    "openai": "^6.46.0",
     "tailwindcss": "^4.2.2",
     "typescript": "^5.9.3",
     "vite": "^8.0.1",

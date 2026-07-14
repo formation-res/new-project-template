@@ -1,0 +1,14 @@
+app-title = Vite + React + DaisyUI Template
+app-intro = Use this maintained starter as a clean foundation for your next project.
+theme-toggle = Toggle theme
+language-label = Language
+hello-title = Hello, world
+hello-body = Sensible defaults are ready so you can focus on application code instead of setup.
+included-title = What's included
+included-vite = Vite + React 19 + TypeScript
+included-ui = Tailwind CSS 4 with DaisyUI
+included-tests = Vitest + Testing Library
+included-i18n = Fluent translations with automatic updates
+next-steps-title = Next steps
+next-steps-body = Replace this starter content with your features, connect APIs, and keep user-visible text in the source locale.
+last-updated-label = Template last updated

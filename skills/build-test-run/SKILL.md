@@ -14,18 +14,14 @@
 ## Workflow
 1) Read `AGENTS.md` to confirm the official commands.
 2) If the user requested a specific task, run only that command.
-3) Otherwise, default to this order for validation:
-   - `npm run lint`
-   - `npm run typecheck`
-   - `npm run test`
-   - `npm run build`
+3) Otherwise, run the repository contract: `npm run check`.
 4) For interactive usage:
    - Dev server: `npm run dev` (note it runs at `http://localhost:5173`).
    - Preview: `npm run preview` after a successful build.
 5) Report results succinctly and include the exact command(s) used.
 
 ## Validation
-- Use the exact npm scripts from `AGENTS.md`.
+- Use the exact npm scripts from `AGENTS.md`; `npm run check` is the complete gate.
 - If a command fails, stop and surface the error summary and next steps.
 
 ## Notes

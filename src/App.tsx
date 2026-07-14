@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { LOCALES, useI18n } from "./i18n/context";
+import { TEMPLATE_LAST_UPDATED } from "./templateMetadata";
 
 const THEME_STORAGE_KEY = "vite-ts-template-theme";
 type ThemeId = "qr-light" | "qr-dark";
@@ -22,6 +24,7 @@ const getInitialTheme = (): ThemeId => {
 
 function App() {
   const [theme, setTheme] = useState<ThemeId>(() => getInitialTheme());
+  const { locale, setLocale, t } = useI18n();
 
   useEffect(() => {
     if (typeof document === "undefined") {
@@ -40,13 +43,25 @@ function App() {
       <div className="mx-auto flex w-full max-w-3xl flex-col gap-6">
         <header className="flex flex-col gap-4 text-center lg:flex-row lg:items-start lg:justify-between lg:text-left">
           <div>
-            <h1 className="text-3xl font-bold">Vite + React + DaisyUI Template</h1>
-            <p className="mt-2 text-base-content/70">
-              Use this starter as a clean slate for your next project. Theme switching, Tailwind,
-              and DaisyUI are all ready to go.
-            </p>
+            <h1 className="text-3xl font-bold">{t("app-title")}</h1>
+            <p className="mt-2 text-base-content/70">{t("app-intro")}</p>
           </div>
-          <div className="flex justify-center lg:justify-end">
+          <div className="flex flex-wrap justify-center gap-3 lg:justify-end">
+            <label className="form-control w-44 text-left">
+              <span className="label-text mb-1 text-xs">{t("language-label")}</span>
+              <select
+                className="select select-bordered select-sm"
+                aria-label={t("language-label")}
+                value={locale}
+                onChange={(event) => setLocale(event.currentTarget.value)}
+              >
+                {LOCALES.map(({ id, label }) => (
+                  <option key={id} value={id}>
+                    {label}
+                  </option>
+                ))}
+              </select>
+            </label>
             <label className="flex cursor-pointer items-center gap-3 rounded-box bg-base-100 px-4 py-2 shadow">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -66,7 +81,7 @@ function App() {
               <input
                 type="checkbox"
                 className="toggle theme-controller"
-                aria-label="Toggle theme"
+                aria-label={t("theme-toggle")}
                 value="qr-dark"
                 checked={theme === "qr-dark"}
                 onChange={(event) => setTheme(event.currentTarget.checked ? "qr-dark" : "qr-light")}
@@ -91,36 +106,34 @@ function App() {
 
         <section className="card bg-base-100 shadow-xl">
           <div className="card-body space-y-4">
-            <h2 className="card-title">Hello, world 👋</h2>
-            <p className="leading-relaxed text-base-content/80">
-              This project ships with sensible defaults so you can zero in on application code.
-              Update the copy, wire up your data fetching, and start building without wading through
-              boilerplate.
-            </p>
+            <h2 className="card-title">{t("hello-title")}</h2>
+            <p className="leading-relaxed text-base-content/80">{t("hello-body")}</p>
             <div className="grid gap-4 md:grid-cols-2">
               <div className="rounded-box bg-base-200 p-4">
                 <h3 className="text-sm font-semibold uppercase tracking-wide text-base-content/70">
-                  What&apos;s Included
+                  {t("included-title")}
                 </h3>
                 <ul className="mt-2 space-y-1 text-sm">
-                  <li>⚡️ Vite + React 19 + TypeScript</li>
-                  <li>🎨 Tailwind CSS 4 with DaisyUI</li>
-                  <li>🧪 Vitest + Testing Library</li>
-                  <li>🌗 Persistent light/dark theme toggle</li>
+                  <li>⚡️ {t("included-vite")}</li>
+                  <li>🎨 {t("included-ui")}</li>
+                  <li>🧪 {t("included-tests")}</li>
+                  <li>🌍 {t("included-i18n")}</li>
                 </ul>
               </div>
               <div className="rounded-box bg-base-200 p-4">
                 <h3 className="text-sm font-semibold uppercase tracking-wide text-base-content/70">
-                  Next Steps
+                  {t("next-steps-title")}
                 </h3>
-                <p className="mt-2 text-sm text-base-content/80">
-                  Replace this content with your features, connect APIs, and expand the component
-                  tree. The template stays lightweight so you remain in full control.
-                </p>
+                <p className="mt-2 text-sm text-base-content/80">{t("next-steps-body")}</p>
               </div>
             </div>
           </div>
         </section>
+
+        <footer className="text-center text-xs text-base-content/60">
+          {t("last-updated-label")}:{" "}
+          <time dateTime={TEMPLATE_LAST_UPDATED}>{TEMPLATE_LAST_UPDATED}</time>
+        </footer>
       </div>
     </main>
   );

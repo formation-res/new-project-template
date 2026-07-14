@@ -18,8 +18,8 @@
 3) For a clean reset (only when requested):
    - Remove `node_modules/` and `package-lock.json`.
    - Run `npm install` to regenerate the lockfile.
-4) If asked to verify, run a quick check:
-   - `npm run lint` or `npm run build` (prefer build for broader validation).
+4) If asked to verify, run `npm run check`.
+5) For a newly generated repository, follow `docs/START-A-PROJECT.md`, including translation automation setup.
 5) Report commands used and any warnings or errors.
 
 ## Validation
