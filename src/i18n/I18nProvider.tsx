@@ -1,5 +1,6 @@
 import { FluentBundle, FluentResource, type FluentVariable } from "@fluent/bundle";
 import { type ReactNode, useCallback, useEffect, useMemo, useState } from "react";
+import { locales, projectConfig } from "../config/project";
 import { fallbackText, I18nContext, isLocale, LOCALES, type Locale } from "./context";
 
 const LOCALE_STORAGE_KEY = "app-locale";
@@ -12,7 +13,7 @@ function findBrowserLocale(): Locale {
   return (
     LOCALES.find(({ id }) =>
       languages.some((language) => language === id || language.startsWith(id.slice(0, 2))),
-    )?.id ?? "en-US"
+    )?.id ?? projectConfig.defaultLocale
   );
 }
 
@@ -33,7 +34,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     document.documentElement.lang = locale;
-    document.documentElement.dir = locale === "ar" ? "rtl" : "ltr";
+    document.documentElement.dir = locales.find(({ id }) => id === locale)?.rtl ? "rtl" : "ltr";
     let active = true;
 
     void Promise.all([

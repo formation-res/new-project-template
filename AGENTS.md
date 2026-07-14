@@ -4,6 +4,7 @@
 
 - Install dependencies with `npm install`.
 - Run the complete verification suite with `npm run check`.
+- Run real-browser verification with `npm run test:e2e` after visible changes.
 - Build the production application with `npm run build`.
 - Runtime and development dependencies use npm; commit `package-lock.json` whenever they change.
 
@@ -13,6 +14,8 @@
 - `src/App.tsx` is application-neutral starter UI and may be replaced by the first project feature.
 - Put domain logic in focused modules and co-locate deterministic `*.test.ts` or `*.test.tsx` tests.
 - `src/i18n/` owns runtime locale behavior; `public/lang/en-US.ftl` is the source catalog.
+- `project.config.json` and `config/locales.json` are the project setup sources of truth.
+- `src/config/` validates browser-visible environment and exposes build identity.
 
 ## Styling
 
@@ -32,6 +35,13 @@
 - Never commit credentials or place secrets in browser-delivered code, `public/`, or `VITE_*` variables.
 - Prefer safe React rendering. Do not add `dangerouslySetInnerHTML`, dynamic code execution, or unvalidated navigation.
 - Keep CI on `npm ci` and keep the dependency lockfile current.
+- Treat every `VITE_*` value as public and use `.env.example` as the safe contract.
+- Keep the Cloudflare `_headers` baseline unless an edge or server layer replaces it explicitly.
+
+## Assets
+
+- Managed website media belongs in the shared FORMATION asset bucket; follow `MEDIA.md`.
+- Run `npm run assets:check` and do not commit large binary source files.
 
 ## Commits and pull requests
 

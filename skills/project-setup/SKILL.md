@@ -15,12 +15,13 @@
 1) Confirm the package manager is npm (per repo scripts).
 2) For standard setup:
    - Run `npm install`.
+   - In a newly generated repository, run `npm run setup` and answer the project prompts.
 3) For a clean reset (only when requested):
    - Remove `node_modules/` and `package-lock.json`.
    - Run `npm install` to regenerate the lockfile.
 4) If asked to verify, run `npm run check`.
-5) For a newly generated repository, follow `docs/START-A-PROJECT.md`, including translation automation setup.
-5) Report commands used and any warnings or errors.
+5) For a newly generated repository, follow `docs/START-A-PROJECT.md`, including translation and deployment automation setup.
+6) Report commands used and any warnings or errors.
 
 ## Validation
 - Ensure `package-lock.json` is updated if it was removed.

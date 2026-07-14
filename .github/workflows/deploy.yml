@@ -1,0 +1,110 @@
+name: Deploy to Cloudflare Pages
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  deployments: write
+  pull-requests: write
+
+concurrency:
+  group: deploy-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: Read deployment configuration
+        id: config
+        env:
+          API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          RAW_BRANCH: ${{ github.head_ref || github.ref_name }}
+          RAW_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          node --input-type=module <<'NODE'
+          import { appendFileSync, readFileSync } from "node:fs";
+          const config = JSON.parse(readFileSync("project.config.json", "utf8"));
+          const project = config.cloudflarePagesProject;
+          const branch = process.env.RAW_BRANCH;
+          const sha = process.env.RAW_SHA;
+          if (project && !/^[a-z0-9][a-z0-9-]*$/.test(project)) throw new Error("Invalid Cloudflare Pages project name");
+          if (!/^[A-Za-z0-9._/-]+$/.test(branch)) throw new Error("Invalid deployment branch");
+          if (!/^[a-f0-9]{40}$/.test(sha)) throw new Error("Invalid deployment commit");
+          const enabled = Boolean(project && process.env.API_TOKEN && process.env.ACCOUNT_ID);
+          appendFileSync(process.env.GITHUB_OUTPUT, `enabled=${enabled}\nproject=${project}\nbranch=${branch}\nsha=${sha}\n`);
+          NODE
+
+      - name: Report disabled deployment
+        if: steps.config.outputs.enabled != 'true'
+        run: echo "Cloudflare deployment is disabled. Run npm run setup and configure CLOUDFLARE_API_TOKEN plus CLOUDFLARE_ACCOUNT_ID." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Set up Node.js
+        if: steps.config.outputs.enabled == 'true'
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        if: steps.config.outputs.enabled == 'true'
+        run: npm ci
+
+      - name: Build application
+        if: steps.config.outputs.enabled == 'true'
+        env:
+          BUILD_COMMIT: ${{ steps.config.outputs.sha }}
+          VITE_APP_ENV: ${{ github.ref == 'refs/heads/main' && 'production' || 'preview' }}
+        run: npm run build
+
+      - name: Deploy prebuilt application
+        if: steps.config.outputs.enabled == 'true'
+        id: deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          wranglerVersion: "4"
+          command: >-
+            pages deploy dist
+            --project-name=${{ steps.config.outputs.project }}
+            --branch=${{ steps.config.outputs.branch }}
+            --commit-hash=${{ steps.config.outputs.sha }}
+
+      - name: Verify deployed version
+        if: steps.config.outputs.enabled == 'true'
+        env:
+          DEPLOYMENT_URL: ${{ steps.deploy.outputs.deployment-url }}
+          EXPECTED_SHA: ${{ steps.config.outputs.sha }}
+        run: node scripts/smoke-deployment.mjs "$DEPLOYMENT_URL" "$EXPECTED_SHA"
+
+      - name: Update pull request preview link
+        if: steps.config.outputs.enabled == 'true' && github.event_name == 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DEPLOYMENT_URL: ${{ steps.deploy.outputs.deployment-url }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          marker="<!-- cloudflare-pages-preview -->"
+          body="$marker
+          Cloudflare Pages preview: $DEPLOYMENT_URL"
+          comment_id="$(gh api "repos/$GITHUB_REPOSITORY/issues/$PR_NUMBER/comments" --jq ".[] | select(.body | contains(\"$marker\")) | .id" | head -n 1)"
+          if [ -n "$comment_id" ]; then
+            gh api --method PATCH "repos/$GITHUB_REPOSITORY/issues/comments/$comment_id" -f body="$body" >/dev/null
+          else
+            gh pr comment "$PR_NUMBER" --body "$body"
+          fi

@@ -16,7 +16,15 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**/*", "!dist", "!node_modules"]
+    "includes": [
+      "**/*",
+      "!dist",
+      "!node_modules",
+      "!playwright-report",
+      "!test-results",
+      "!.playwright-cli",
+      "!output"
+    ]
   },
   "formatter": {
     "enabled": true,

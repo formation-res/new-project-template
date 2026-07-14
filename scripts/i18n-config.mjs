@@ -1,17 +1,11 @@
+import { readFile } from "node:fs/promises";
+
 export const SOURCE_LOCALE = "en-US";
 
-export const TARGET_LOCALES = [
-  { id: "de-DE", language: "German" },
-  { id: "fr-FR", language: "French" },
-  { id: "es-ES", language: "Spanish" },
-  { id: "it-IT", language: "Italian" },
-  { id: "nl-NL", language: "Dutch" },
-  { id: "pl-PL", language: "Polish" },
-  { id: "pt-BR", language: "Brazilian Portuguese" },
-  { id: "uk-UA", language: "Ukrainian" },
-  { id: "ja-JP", language: "Japanese" },
-  { id: "zh-CN", language: "Simplified Chinese" },
-  { id: "ko-KR", language: "Korean" },
-  { id: "ar", language: "Arabic" },
-  { id: "hi-IN", language: "Hindi" },
-];
+const locales = JSON.parse(
+  await readFile(new URL("../config/locales.json", import.meta.url), "utf8"),
+);
+
+export const TARGET_LOCALES = locales
+  .filter(({ id }) => id !== SOURCE_LOCALE)
+  .map(({ id, language }) => ({ id, language }));

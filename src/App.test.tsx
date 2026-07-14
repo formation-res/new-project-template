@@ -16,9 +16,14 @@ const messages: Record<string, string> = {
   "included-ui": "Tailwind CSS 4 with DaisyUI",
   "included-tests": "Vitest + Testing Library",
   "included-i18n": "Fluent translations with automatic updates",
+  "included-deploy": "Cloudflare preview and production deployments",
+  "included-accessibility": "Browser and accessibility checks",
   "next-steps-title": "Next steps",
   "next-steps-body": "Replace the starter content.",
   "last-updated-label": "Template last updated",
+  "build-version-label": "Version",
+  "build-commit-label": "Commit",
+  "build-environment-label": "Environment",
 };
 
 const i18n: I18nValue = {
@@ -83,6 +88,6 @@ describe("App", () => {
     await waitFor(() =>
       expect(document.documentElement.getAttribute("data-theme")).toBe("qr-dark"),
     );
-    expect(window.localStorage.getItem("new-project-template-theme")).toBe("qr-dark");
+    expect(window.localStorage.getItem("app-theme")).toBe("qr-dark");
   });
 });
