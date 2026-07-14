@@ -1,6 +1,6 @@
-# FORMATION Vite + React + TypeScript Template
+# New Project Template
 
-**Template last updated:** `2026-07-14T13:45:51Z`
+**Template last updated:** `2026-07-14T13:56:31Z`
 
 The organization-owned default for new FORMATION front-end projects. It provides a maintained, application-neutral baseline without carrying over the source repository's history.
 
@@ -24,7 +24,7 @@ Follow [docs/START-A-PROJECT.md](docs/START-A-PROJECT.md). The short version is:
 ```bash
 gh repo create formation-res/<project-name> \
   --private \
-  --template formation-res/vite-ts-template \
+  --template formation-res/new-project-template \
   --clone
 
 cd <project-name>

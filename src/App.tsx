@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { LOCALES, useI18n } from "./i18n/context";
 import { TEMPLATE_LAST_UPDATED } from "./templateMetadata";
 
-const THEME_STORAGE_KEY = "vite-ts-template-theme";
+const THEME_STORAGE_KEY = "new-project-template-theme";
 type ThemeId = "qr-light" | "qr-dark";
 
 const isThemeId = (value: string | null): value is ThemeId =>
