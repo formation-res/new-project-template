@@ -17,11 +17,7 @@
    - Targeted: `npm install <pkg>@<version>`.
    - Batch: `npm update` (respects semver ranges).
 3) If the user specifies constraints (patch/minor), honor them.
-4) After updating, run validation in this order unless instructed otherwise:
-   - `npm run lint`
-   - `npm run typecheck`
-   - `npm run test`
-   - `npm run build`
+4) After updating, run `npm run check` unless instructed otherwise.
 5) Summarize updated packages and note any breaking changes or required follow-ups.
 
 ## Validation

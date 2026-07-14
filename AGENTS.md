@@ -1,39 +1,47 @@
 # Repository Guidelines
 
-## Project Structure & Module Organization
-- `src/main.tsx` bootstraps the React/Vite entry point, while `src/App.tsx` renders the cost estimator UI.
-- Domain logic lives in `src/lib/`, with unit tests co-located as `*.test.ts`; shared test setup is in `src/test/setup.ts`.
-- `src/index.css` hosts Tailwind v4 directives (`@import "tailwindcss";`, `@plugin "daisyui"`) plus DaisyUI theme hooks; TypeScript config remains in `tsconfig*.json`.
-- `vite.config.ts` registers `@tailwindcss/vite` alongside the React SWC plugin and wires Vitest globals for browser-like testing.
+## Build and verification
 
-## Build, Test, and Development Commands
-- Install dependencies with `npm install` after cloning.
-- `npm run dev` starts the Vite dev server at `http://localhost:5173` for live reloading.
-- `npm run build` type-checks (`tsc --noEmit`) and emits a production bundle in `dist/`.
-- `npm run preview` serves the built bundle locally to verify deployment artifacts.
-- `npm run test` runs the Vitest suite in a jsdom environment; append flags like `--runInBand` if diagnostics need isolation.
-- `npm run lint` runs Biome for formatting/linting; `npm run typecheck` performs type-driven checks via the TypeScript compiler.
+- Install dependencies with `npm install`.
+- Run the complete verification suite with `npm run check`.
+- Build the production application with `npm run build`.
+- Runtime and development dependencies use npm; commit `package-lock.json` whenever they change.
 
-## Coding Style & Naming Conventions
-- Use TypeScript functional components; name React components and files in PascalCase (e.g., `CostSummary.tsx`) and utilities in camelCase (`formatCurrency.ts`).
-- Maintain 2-space indentation, double quotes, and trailing commas per Prettier defaults; rely on editor formatting and `npm run lint` to catch type regressions.
-- Prefer Tailwind utility classes and DaisyUI primitives for styling; reserve `src/index.css` for shared tokens, `@theme` definitions, or global resets that Tailwind/DaisyUI cannot express inline.
+## Application structure
 
-## Testing Guidelines
-- Place tests next to the code they cover as `moduleName.test.ts`; use Vitest globals (e.g., `describe`, `expect`) configured in `vite.config.ts`.
-- Leverage `@testing-library/react` helpers for component behavior and `src/test/setup.ts` for shared mocks or extensions.
-- Cover calculator edge cases (zero values, large areas) and user interaction flows; ensure new logic includes deterministic assertions before merging.
+- `src/main.tsx` mounts the React application and internationalization provider.
+- `src/App.tsx` is application-neutral starter UI and may be replaced by the first project feature.
+- Put domain logic in focused modules and co-locate deterministic `*.test.ts` or `*.test.tsx` tests.
+- `src/i18n/` owns runtime locale behavior; `public/lang/en-US.ftl` is the source catalog.
 
-## Commit & Pull Request Guidelines
-- Compose commits with short, imperative subjects (`Add halls summary row`), mirroring existing Git history and keeping them under ~72 characters.
-- Document notable changes in the commit body or PR description, linking issues when relevant and noting any configuration updates.
-- For PRs, provide a concise summary, test evidence (`npm run lint && npm run test`), and UI screenshots or GIFs when visuals change.
-- Confirm all required commands pass locally and that builds remain warning-free prior to requesting review.
+## Styling
 
-## Environment Notes
-- Tailwind 4 no longer uses a JS config; declare content sources, plugins, and DaisyUI customizations via the directives in `src/index.css`.
-- When adding path aliases or environment variables, update both `tsconfig.json` and `vite.config.ts` to keep runtime and tests aligned.
+- Use Tailwind CSS 4 with DaisyUI components.
+- Prefer DaisyUI primitives and minimal Tailwind utilities over custom CSS.
+- Preserve both black-and-white light and dark themes unless the project explicitly replaces them.
 
-## Agent Skills
-- Agentic tools should look for reusable workflows in `skills/<skill-name>/SKILL.md`.
-- Use `skills/_template/SKILL.md` as the starting point for new skills and keep them short, task-focused, and validation-aware.
+## Internationalization
+
+- Do not hard-code new user-visible text in components. Add it to `public/lang/en-US.ftl` and call `useI18n().t()`.
+- Run `npm run translations:check` after catalog changes.
+- `npm run translations:sync` requires a server-side `OPENAI_API_KEY`; never expose that key through a `VITE_*` variable.
+- Machine-generated catalogs require human review before merge.
+
+## Security
+
+- Never commit credentials or place secrets in browser-delivered code, `public/`, or `VITE_*` variables.
+- Prefer safe React rendering. Do not add `dangerouslySetInnerHTML`, dynamic code execution, or unvalidated navigation.
+- Keep CI on `npm ci` and keep the dependency lockfile current.
+
+## Commits and pull requests
+
+- Use short imperative commit subjects.
+- Include a concise change summary and `npm run check` evidence in pull requests.
+- Include screenshots when visual behavior changes.
+- `@formation-res/dev-team` owns review of this template and its generated defaults.
+
+## Reusable workflows
+
+- Read `skills/<skill-name>/SKILL.md` when a matching workflow exists.
+- Use `skills/_template/SKILL.md` as the starting point for new repository-local skills.
+- Follow `docs/SHARED-INFRASTRUCTURE.md` before adding code that should instead live in a versioned package or reusable organization workflow.

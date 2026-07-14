@@ -1,0 +1,7 @@
+# The development team owns the company template and all generated-project defaults.
+* @formation-res/dev-team
+
+# Translation automation and catalogs require the same review ownership.
+/public/lang/ @formation-res/dev-team
+/.github/workflows/ @formation-res/dev-team
+/scripts/ @formation-res/dev-team
