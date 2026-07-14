@@ -1,6 +1,6 @@
 # New Project Template
 
-**Template last updated:** `2026-07-14T14:41:08.677Z`
+**Template last updated:** `2026-07-14T14:48:21.000Z`
 
 The organization-owned default for new FORMATION front-end projects. It provides a maintained, application-neutral baseline without carrying over the source repository's history.
 
