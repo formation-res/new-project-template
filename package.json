@@ -17,9 +17,11 @@
     "lint:fix": "biome check --write .",
     "format": "biome format --write .",
     "typecheck": "tsc --noEmit",
+    "timestamp:update": "node scripts/update-template-timestamp.mjs",
+    "timestamp:check": "node scripts/update-template-timestamp.mjs --check",
     "translations:check": "node scripts/check-translations.mjs",
     "translations:sync": "node scripts/sync-translations.mjs",
-    "check": "npm run lint && npm run typecheck && npm run translations:check && npm run test && npm run build"
+    "check": "npm run lint && npm run typecheck && npm run timestamp:check && npm run translations:check && npm run test && npm run build"
   },
   "dependencies": {
     "@fluent/bundle": "^0.19.1",
