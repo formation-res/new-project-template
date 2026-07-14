@@ -6,7 +6,7 @@ The organization-owned default for new FORMATION front-end projects. It provides
 
 ## Included
 
-- Vite 8, React 19, TypeScript, React SWC, and Node.js 22.
+- Vite 8, React 19, TypeScript, React SWC, and Node.js 24.
 - Tailwind CSS 4 with minimal DaisyUI black-and-white light/dark themes.
 - Biome formatting and linting.
 - Vitest and Testing Library.
