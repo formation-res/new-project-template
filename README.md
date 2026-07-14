@@ -1,6 +1,6 @@
 # New Project Template
 
-**Template last updated:** `2026-07-14T13:56:31Z`
+**Template last updated:** `2026-07-14T14:15:50.175Z`
 
 The organization-owned default for new FORMATION front-end projects. It provides a maintained, application-neutral baseline without carrying over the source repository's history.
 
@@ -15,6 +15,7 @@ The organization-owned default for new FORMATION front-end projects. It provides
 - Fluent internationalization with browser locale detection, English fallback, and right-to-left support.
 - English plus German, French, Spanish, Italian, Dutch, Polish, Portuguese, Ukrainian, Japanese, Simplified Chinese, Korean, Arabic, and Hindi catalogs.
 - OpenAI-backed translation synchronization that opens reviewable pull requests when English source text changes.
+- Automatic last-updated timestamps after every change merged to `main`.
 - CODEOWNERS and documented maintenance ownership.
 
 ## Start a project
@@ -46,7 +47,13 @@ The development server runs at `http://localhost:5173`.
 - `npm run test` / `npm run test:watch` — run tests once or in watch mode.
 - `npm run translations:check` — validate Fluent syntax and key parity.
 - `npm run translations:sync` — update stale catalogs using the server-side `OPENAI_API_KEY`.
+- `npm run timestamp:update` — synchronize every displayed template timestamp.
+- `npm run timestamp:check` — verify that every displayed template timestamp matches.
 - `npm run check` — run the complete verification suite.
+
+## Last-updated timestamp
+
+After every non-automated push to `main`, `.github/workflows/timestamp.yml` records the latest main commit time in the README, maintenance documents, project-start guide, infrastructure guide, and starter UI. The workflow commits the synchronized timestamp once and ignores its own bot commit to prevent loops.
 
 ## Translation workflow
 

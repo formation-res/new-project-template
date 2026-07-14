@@ -1,6 +1,6 @@
 # Template versus shared infrastructure
 
-Last updated: 2026-07-14T13:56:31Z
+Last updated: 2026-07-14T14:15:50.175Z
 
 This repository is the snapshot used to create a project. Existing projects do not automatically receive later template changes.
 
