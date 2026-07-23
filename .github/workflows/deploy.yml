@@ -59,6 +59,10 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
 
+      - name: Enable declared npm version
+        if: steps.config.outputs.enabled == 'true'
+        run: corepack enable npm
+
       - name: Install dependencies
         if: steps.config.outputs.enabled == 'true'
         run: npm ci
