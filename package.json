@@ -46,7 +46,7 @@
     "@vitejs/plugin-react": "^6.0.4",
     "daisyui": "^5.7.4",
     "jsdom": "^30.0.1",
-    "openai": "^6.48.0",
+    "openai": "^7.1.0",
     "tailwindcss": "^4.3.3",
     "typescript": "^7.0.2",
     "vite": "^8.1.5",
