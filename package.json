@@ -36,22 +36,22 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.12.1",
-    "@biomejs/biome": "^2.5.5",
-    "@playwright/test": "^1.61.1",
+    "@biomejs/biome": "^2.5.6",
+    "@playwright/test": "^1.62.0",
     "@tailwindcss/vite": "^4.3.3",
     "@testing-library/jest-dom": "^7.0.0",
     "@testing-library/react": "^16.3.2",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.4",
-    "daisyui": "^5.7.0",
+    "daisyui": "^5.7.4",
     "jsdom": "^29.1.1",
     "openai": "^6.48.0",
     "tailwindcss": "^4.3.3",
     "typescript": "^7.0.2",
     "vite": "^8.1.5",
     "vitest": "^4.1.10",
-    "wrangler": "^4.113.0"
+    "wrangler": "^4.114.0"
   },
   "allowScripts": {
     "esbuild@0.28.1": true,
